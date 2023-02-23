@@ -1,13 +1,9 @@
-import json
-from selenium import webdriver
-from bs4 import BeautifulSoup
+from KusTester import *
 
-browser = webdriver.Chrome(executable_path=r"C:\\chromedriver.exe")
-url = "https://kusjournal.ru/api/get/all/journal_table(journal_table)[*;teacher_id[name];methodist_id[]]"
-browser.get(url)
-page = BeautifulSoup(browser.page_source, "html.parser")
-print(json.loads(page.find('pre').text))
 true_ans = json.loads('''
 {"journal_tables":[{"schedule":"1 1 2","group_id":2,"plan_id":1,"is_group":false,"journal_tables":[],"id":1,"subject_id":1,"teacher":{"name":"Ника"},"head_id":3,"methodist":{"school_id":1,"role":["add_user","add_grade","add_journal","add_plan"],"name":"Серафима","password":"123","login":"all24","surname":"Смирнова","id":24}},{"methodist":{"id":24,"surname":"Смирнова","login":"all24","password":"123","name":"Серафима","role":["add_user","add_grade","add_journal","add_plan"],"school_id":1},"head_id":1,"teacher":{"name":"Ника"},"subject_id":2,"id":2,"journal_tables":[],"is_group":false,"plan_id":1,"group_id":2,"schedule":"2 2 4 4"},{"schedule":"1","group_id":1,"plan_id":1,"is_group":false,"journal_tables":[],"id":3,"subject_id":3,"teacher":{"name":"Артём"},"head_id":1,"methodist":{"school_id":1,"role":["add_user","add_grade","add_journal","add_plan"],"name":"Серафима","password":"123","login":"all24","surname":"Смирнова","id":24}},{"schedule":"1 2 3 4 5","group_id":2,"plan_id":1,"is_group":false,"journal_tables":[],"id":4,"subject_id":2,"teacher":{"name":"Артём"},"head_id":1,"methodist":{"school_id":1,"role":["add_user","add_grade","add_journal","add_plan"],"name":"Серафима","password":"123","login":"all24","surname":"Смирнова","id":24}},{"methodist":{"id":24,"surname":"Смирнова","login":"all24","password":"123","name":"Серафима","role":["add_user","add_grade","add_journal","add_plan"],"school_id":1},"head_id":1,"teacher":{"name":"Августина"},"subject_id":1,"id":5,"journal_tables":[],"is_group":true,"plan_id":2,"group_id":2,"schedule":"1 2 3 4 5 6 7"}]}
 ''')
-print(true_ans == json.loads(page.find('pre').text))
+
+tester = KusTester(driver_path=r"C:\\chromedriver.exe", url="https://kusjournal.ru")
+tester.Add("/api/get/all/journal_table(journal_table)[*;teacher_id[name];methodist_id[]]", true_ans)
+tester.Test()
